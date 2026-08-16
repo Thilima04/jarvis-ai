@@ -1,0 +1,21 @@
+# Arquivos de ambiente e chaves
+.env
+*.env.local
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+ENV/
+
+# Executáveis baixados
+cloudflared.exe
+
+# Logs e arquivos de sistema
+*.log
+.DS_Store
+Thumbs.db
