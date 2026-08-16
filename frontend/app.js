@@ -623,8 +623,16 @@ function setupEventListeners() {
         toggleVoiceRecognition();
     });
 
-    btnScanVision.addEventListener("click", () => {
-        sendCommandToJarvis("Descreva com precisão o que você está vendo agora através da câmera.", true, false);
+    btnScanVision.addEventListener("click", async () => {
+        if (!isUsingMobileCam) {
+            await toggleMobileCamera();
+            // Dá 500ms para a câmera focar antes do snapshot
+            setTimeout(() => {
+                sendCommandToJarvis("Descreva com precisão e detalhes o que você está vendo através desta imagem da câmera.", true, false);
+            }, 600);
+        } else {
+            sendCommandToJarvis("Descreva com precisão e detalhes o que você está vendo através desta imagem da câmera.", true, false);
+        }
     });
 
     btnScanScreen.addEventListener("click", () => {
