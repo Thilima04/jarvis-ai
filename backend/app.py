@@ -1,8 +1,14 @@
 import os
+import sys
 import json
 import asyncio
 from pathlib import Path
 from contextlib import asynccontextmanager
+
+# Garante que o diretório backend esteja no sys.path
+backend_dir = Path(__file__).resolve().parent
+if str(backend_dir) not in sys.path:
+    sys.path.insert(0, str(backend_dir))
 
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
@@ -10,13 +16,22 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse, JSONResponse
 from pydantic import BaseModel
 
-from config import PORT, HOST, GEMINI_API_KEY
-from vision import vision_system
-from voice import voice_engine
-from gemini_brain import brain
-from memory_manager import memory_manager
-from screen_vision import screen_vision
-import system_tools
+try:
+    from config import PORT, HOST, GEMINI_API_KEY
+    from vision import vision_system
+    from voice import voice_engine
+    from gemini_brain import brain
+    from memory_manager import memory_manager
+    from screen_vision import screen_vision
+    import system_tools
+except ImportError:
+    from backend.config import PORT, HOST, GEMINI_API_KEY
+    from backend.vision import vision_system
+    from backend.voice import voice_engine
+    from backend.gemini_brain import brain
+    from backend.memory_manager import memory_manager
+    from backend.screen_vision import screen_vision
+    import backend.system_tools as system_tools
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):

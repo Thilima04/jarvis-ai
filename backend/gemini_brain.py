@@ -1,12 +1,26 @@
 import os
+import sys
 import json
 import base64
 import requests
-from config import GEMINI_API_KEY, SYSTEM_PROMPT
-from vision import vision_system
-from screen_vision import screen_vision
-from memory_manager import memory_manager
-import system_tools
+from pathlib import Path
+
+backend_dir = Path(__file__).resolve().parent
+if str(backend_dir) not in sys.path:
+    sys.path.insert(0, str(backend_dir))
+
+try:
+    from config import GEMINI_API_KEY, SYSTEM_PROMPT
+    from vision import vision_system
+    from screen_vision import screen_vision
+    from memory_manager import memory_manager
+    import system_tools
+except ImportError:
+    from backend.config import GEMINI_API_KEY, SYSTEM_PROMPT
+    from backend.vision import vision_system
+    from backend.screen_vision import screen_vision
+    from backend.memory_manager import memory_manager
+    import backend.system_tools as system_tools
 
 class GeminiBrain:
     def __init__(self):

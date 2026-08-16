@@ -1,8 +1,18 @@
 import io
+import sys
 import asyncio
 import base64
+from pathlib import Path
 import edge_tts
-from config import SPUDER_VOICE
+
+backend_dir = Path(__file__).resolve().parent
+if str(backend_dir) not in sys.path:
+    sys.path.insert(0, str(backend_dir))
+
+try:
+    from config import SPUDER_VOICE
+except ImportError:
+    from backend.config import SPUDER_VOICE
 
 try:
     import speech_recognition as sr
